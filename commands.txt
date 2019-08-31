@@ -1,0 +1,4 @@
+commands which will be used regularly
+git pull origin master -->> to get the updated repo
+git add-commit -m 'commit message' -->> to add your updated repo version to the indexing
+git push origin master -->> to upload your committed repo
