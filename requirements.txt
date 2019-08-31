@@ -1,0 +1,4 @@
+Camera module
+Raspberry pie
+
+face detection using openCV
