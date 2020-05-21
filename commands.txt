@@ -2,3 +2,7 @@ commands which will be used regularly
 git pull origin master -->> to get the updated repo
 git add-commit -m 'commit message' -->> to add your updated repo version to the indexing
 git push origin master -->> to upload your committed repo
+
+alias to add , commit and push in a single command -->> git config --global alias.update '!f() { git add -A && git commit -m "$@" && git push; }; f'
+
+usage -->> git update "commit_message"
