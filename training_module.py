@@ -1,4 +1,4 @@
-#importing openCV and operating system for database access
+#importing openCV and OS module (operating system for database access)
 import cv2
 import os
 
@@ -32,7 +32,7 @@ while True:
     #read the frame from the camera
     check,frame=cam.read()
     
-    #flip the frame by x-axis
+    #flip the frame by y-axis
     frame = cv2.flip(frame, 1)
     
     #Converting coloured image to gray image
@@ -43,7 +43,7 @@ while True:
     #minNeighbors -> Parameter specifying how many neighbors each candidate rectangle should have to retain it.
     #In other words, this parameter will affect the quality of the detected faces.
     #Higher value results in less detections but with higher quality.
-    faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.05,minNeighbors=5)
+    faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.04,minNeighbors=10)
     
     #print(type(faces))
     #print(faces)
