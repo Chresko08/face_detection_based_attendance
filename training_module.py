@@ -1,4 +1,6 @@
-#importing openCV and OS module (operating system for database access)
+#Tested on numpy==1.19.1 , opencv-python==4.4.0.46
+
+#importing openCV and operating system for database access
 import cv2
 import os
 
@@ -9,7 +11,7 @@ if not os.path.isdir(path):os.makedirs(path)
 #getting the control of primary camera (0)
 cam=cv2.VideoCapture(0)
 
-#size of the window that'll open for display the video capture
+#size of the window that'll open for displaying the video captured
 #print("INITIALLY")
 #print(cam.get(3))
 #print(cam.get(4))
@@ -30,7 +32,7 @@ count=0
 while True:
 
     #read the frame from the camera
-    check,frame=cam.read()
+    _,frame=cam.read()
     
     #flip the frame by y-axis
     frame = cv2.flip(frame, 1)
@@ -43,7 +45,7 @@ while True:
     #minNeighbors -> Parameter specifying how many neighbors each candidate rectangle should have to retain it.
     #In other words, this parameter will affect the quality of the detected faces.
     #Higher value results in less detections but with higher quality.
-    faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.04,minNeighbors=10)
+    faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.5,minNeighbors=10)
     
     #print(type(faces))
     #print(faces)
@@ -65,4 +67,3 @@ while True:
 #if 'q' input is given then close the opened window and release the camera captured
 cv2.destroyWindow('face recognition')
 cam.release()
-
