@@ -32,7 +32,8 @@ while True:
     
     #detectMultiScale -> method to search for the face rectangle coordinates
     #scaleFactor -> decreses the shape value by 4% , smaller the value , the greater is accuracy
-    #minNeighbors -> Parameter specifying how many neighbors each candidate rectangle should have to retain it. In other words, this parameter will affect the quality of the detected faces. Higher value results in less detections but with higher quality.
+    #minNeighbors -> Parameter specifying how many neighbors each candidate rectangle should have to retain it.
+    # In other words, this parameter will affect the quality of the detected faces. Higher value results in less detections but with higher quality.
     faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.05,minNeighbors=5)
     
     #print(type(faces))

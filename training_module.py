@@ -1,4 +1,4 @@
-#Tested on numpy==1.19.1 , opencv-python==4.4.0.46
+#Tested on numpy==1.19.1 , opencv-python==4.4.0.46 , python==3.7.9
 
 #importing openCV and operating system for database access
 import cv2
