@@ -1,1 +1,2 @@
 This will contain the training model.
+Training model will going to create by itself when you run train_model.py file and it will save in this folder.
