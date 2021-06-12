@@ -114,6 +114,8 @@ def on_closing():
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
+message = tk.Label(window, text="UGI, Face Recognition System", bg="cyan", fg="black", width=50,height=3, font=('times', 30, 'italic bold '))
+message.place(x=80, y=20)
 
 #Notification = tk.Label(window, text="All things good", bg="Green", fg="white", width=15, height=3)
 Notification = Label(window, text="All things good", bg="Green", fg="white", width=15, height=3)
@@ -129,11 +131,9 @@ def testVal(inStr,acttyp):
     return True
 	
 
-
-message = tk.Label(window, text="UGI, Face Recognition System", bg="cyan", fg="black", width=50,height=3, font=('times', 30, 'italic bold '))
-
-
-message.place(x=80, y=20)
+# bgImg = ImageTk.PhotoImage(file = "UGI.jpeg")
+# label = tk.Label(window,image=bgImg,width=1280,height=720)
+# label.place(x=0,y=0)
 
 txt = tk.Entry(window, validate="key", width=20,  fg="red")
 #txt = Entry(window, validate="key", width=20,  fg="red")
@@ -148,12 +148,15 @@ txt2 = tk.Entry(window, width=20, fg="red")
 #txt2 = Entry(window, width=20, fg="red")
 txt2.place(x=550, y=310)
 
-takeImg = tk.Button(window, text="Take Images",command=take_img,fg="black", bg="green"  ,width=20  ,height=3, activebackground = "Red" ,font=('times', 20, 'italic bold '))
+takeImg = tk.Button(window, text="Take Images",command=take_img ,fg="black", bg="green"  ,width=15  ,height=3, activebackground = "Red" ,font=('times', 20, 'italic bold '))
 #takeImg = Button(window, text="Take Images",command=take_img,fg="black", bg="green"  ,width=20  ,height=3, activebackground = "Red" ,font=('times', 20, 'italic bold '))
 takeImg.place(x=200, y=500)
 
-trainImg = tk.Button(window, text="Train Images",fg="black",command=training ,bg="green"  ,width=20  ,height=3, activebackground = "Red",font=('times', 20, 'italic bold '))
+trainImg = tk.Button(window, text="Train Images", command=training ,fg="black", bg="green"  ,width=15  ,height=3, activebackground = "Red",font=('times', 20, 'italic bold '))
 #trainImg = Button(window, text="Train Images",fg="black",command=trainimg ,bg="green"  ,width=20  ,height=3, activebackground = "Red",font=('times', 20, 'italic bold '))
-trainImg.place(x=590, y=500)
+trainImg.place(x=500, y=500)
+
+trainImg = tk.Button(window, text="Quit", command=on_closing, fg="white", bg="red" ,width=15 ,height=3, activebackground = "Red",font=('times', 20, 'italic bold '))
+trainImg.place(x=800, y=500)
 
 window.mainloop()

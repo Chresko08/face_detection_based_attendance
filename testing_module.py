@@ -3,10 +3,11 @@
 #importing openCV and operating system for database access
 import cv2
 import os
+import face_recognition
 
 univ_rollno=input("Enter your university roll number:")
 path="Dataset/"+univ_rollno
-if not os.path.isdir(path):os.makedirs(path)
+#if not os.path.isdir(path):os.makedirs(path)
 
 #getting the control of primary camera (0)
 cam=cv2.VideoCapture(0)
@@ -31,6 +32,8 @@ count=0
 #looping through every image frame
 while True:
 
+    imgMy = face_recognition.load_image_file(path+1.jpg)
+
     #read the frame from the camera
     _,frame=cam.read()
     
@@ -45,7 +48,7 @@ while True:
     #minNeighbors -> Parameter specifying how many neighbors each candidate rectangle should have to retain it.
     #In other words, this parameter will affect the quality of the detected faces.
     #Higher value results in less detections but with higher quality.
-    faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.5,minNeighbors=6)
+    faces=face_features.detectMultiScale(gray_frame,scaleFactor=1.5,minNeighbors=5)
     
     #print(type(faces))
     #print(faces)
@@ -53,10 +56,11 @@ while True:
     #adding a rectangle to the frame where face is found
     #last two parameters are colour and width of rectangle
     for x,y,w,h in faces:
-        frame=cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),3)
+        frame=cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
         count+=1
-        cv2.imwrite(path+'/'+str(count) +".jpg",gray_frame[y:y+h,x:x+w])
-        
+#        cv2.imwrite(path+'/'+str(count) +".jpg",gray_frame[y:y+h,x:x+w])
+        cv2.putText(frame,"hi hello",(x+1,y+h-4),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+
     #show the frame in the window
     cv2.imshow('face recognition',frame)
     

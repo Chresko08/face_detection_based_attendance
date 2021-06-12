@@ -19,16 +19,11 @@ while True:
     #img = cv2.flip(img, -1) # Flip vertically
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     
-    faces = faceCascade.detectMultiScale( 
-        gray,
-        scaleFactor = 1.2,
-        minNeighbors = 5
-       )
+    faces = faceCascade.detectMultiScale( gray, scaleFactor = 1.2, minNeighbors = 5)
     for(x,y,w,h) in faces:
         cv2.rectangle(img, (x,y), (x+w,y+h), (0,255,0), 2)
         id,confidence = recognizer.predict(gray[y:y+h,x:x+w])
-        
-        # If confidence is less them 100 ==> "0" : perfect match 
+        # If confidence is less than 100 ==> "0" : perfect match 
         if (confidence < 100):
             id = names[id]
             confidence = "  {0}%".format(round(100 - confidence))
