@@ -13,9 +13,10 @@ def markAttendance(name):
             entry = line.split(',')
             nameList.append(entry[0])
         if name not in nameList:
-            d1 = datetime.now()
-            dtString = d1.strftime('%b-%d-%Y')
-            f.writelines(f'\n{name},{dtString}')
+            now = datetime.now()
+            current_date = now.strftime('%b-%d-%Y')
+            current_time = now.strftime("%H:%M:%S")
+            f.writelines(f'\n{name},{current_date},{current_time}')
 
 
 import cv2
@@ -29,7 +30,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 id = 0
 
 # add the list of names of your dataset here
-names = ['None','Nihal']
+names = {0:'None',1:'Shubham'}
 
 cam = cv2.VideoCapture(0)
 
