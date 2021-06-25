@@ -123,7 +123,7 @@ message.place(x=80, y=20)
 
 Notification = Label(window, text="All things good", bg="Green", fg="white", width=15, height=3)
 
-lbl = Label(window, text="Enter id", width=20, height=2, fg="black",bg='#99badd', font=('times', 20, 'italic bold '))
+lbl = Label(window, text="Enter Roll No", width=20, height=2, fg="black",bg='#99badd', font=('times', 20, 'italic bold '))
 lbl.place(x=200, y=250)
 
 def testVal(inStr,acttyp):
@@ -136,13 +136,13 @@ def testVal(inStr,acttyp):
 
 txt = tk.Entry(window, validate="key",  fg="black",font=("Calibri 20"),bg = "#aaf0d1")
 txt['validatecommand'] = (txt.register(testVal),'%P','%d')	
-txt.place(x=550, y=260 , width = 200, height = 40)
+txt.place(x=550, y=260 , width = 300, height = 40)
 
 lbl2 = tk.Label(window, text="Enter Name", width=20, fg="black",bg='#99badd',  height=2, font=('times', 20, 'italic bold '))
 lbl2.place(x=200, y=370)
 
 txt2 = tk.Entry(window,fg="black",font=("Calibri 20"),bg ="#aaf0d1" )
-txt2.place(x=550, y=380,width = 200, height = 40)
+txt2.place(x=550, y=380,width = 300, height = 40)
 
 train_btn = PhotoImage(file = "button_train-images.png")
 take_btn = PhotoImage(file = "button_take-image.png")

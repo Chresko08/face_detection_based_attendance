@@ -5,18 +5,21 @@ This function helps to take attendance and save it into an excel file
 in the following foramt:
 Name Date
 """
-def markAttendance(name):
+def markAttendance(id,name):
     with open('Attendance.csv','r+') as f:
         myDataList = f.readlines()
-        nameList = []
+        idList = []
         for line in myDataList:
             entry = line.split(',')
-            nameList.append(entry[0])
-        if name not in nameList:
+            idList.append(entry[2])
+            sno=entry[0]
+        if str(id) not in idList:
             now = datetime.now()
             current_date = now.strftime('%b-%d-%Y')
             current_time = now.strftime("%H:%M:%S")
-            f.writelines(f'\n{name},{current_date},{current_time}')
+            if sno=="S.No." : serial=1
+            else : serial=int(sno)+1
+            f.writelines(f'\n{serial},{name},{id},{current_date},{current_time}')
 
 
 import cv2
@@ -30,7 +33,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 id = 0
 
 # add the list of names of your dataset here
-names = {0:'None',1:'Shubham'}
+names = {0:'None',1:'something'}
 
 cam = cv2.VideoCapture(0)
 
@@ -50,8 +53,8 @@ while True:
 
         # If confidence is less them 100 ==> "0" : perfect match
         if (confidence < 100):
-            id = names[id]
-            markAttendance(id)
+            stu_name = names[id]
+            markAttendance(id,stu_name)
             confidence = "  {0}%".format(round(100 - confidence))
         else:
             id = "unknown"
@@ -59,7 +62,7 @@ while True:
 
         cv2.putText(
             img,
-            str(id),
+            stu_name,
             (x + 5, y - 5),
             font,
             1,
