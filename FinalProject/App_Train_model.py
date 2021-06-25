@@ -4,7 +4,10 @@ import cv2
 import os
 import numpy as np
 from PIL import Image,ImageTk
-
+import cv2
+import numpy as np
+from datetime import datetime
+import csv
 
 #####Window is our Main frame of system
 window = tk.Tk()
@@ -19,9 +22,10 @@ window.configure()
 This function helps to take 200 images of an individual subject.
 """
 def take_img():
-
+    path = "dataset"
     cam = cv2.VideoCapture(0)
     detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+    if not os.path.isdir(path):os.makedirs(path)
     ID = txt.get()
     Name = txt2.get()
     sampleNum = 0
@@ -70,18 +74,77 @@ def training():
         Notification.place(x=350, y=400)
 
     recognizer.train(faces, np.array(Id)) 
-    try:
-        recognizer.save("model/trained_model2.yml")
-    except Exception as e:
-        q='Please make "model" folder'
-        Notification.configure(text=q, bg="SpringGreen3", width=50, font=('times', 18, 'bold'))
-        Notification.place(x=350, y=400)
+    if not os.path.isdir("model"):os.makedirs("model")
+    recognizer.save("model/trained_model2.yml")
 
     res = "Model Trained"  # +",".join(str(f) for f in Id)
     Notification.configure(text=res, bg="#d3d3d3", width=50, font=('times', 18, 'bold'))
     Notification.place(x=250, y=450)
 
-	
+
+def markAttendance(id,name):
+    with open('Attendance.csv','r+') as f:
+        myDataList = f.readlines()
+        idList = []
+        for line in myDataList:
+            entry = line.split(',')
+            idList.append(entry[2])
+            sno=entry[0]
+        if str(id) not in idList:
+            now = datetime.now()
+            current_date = now.strftime('%b-%d-%Y')
+            current_time = now.strftime("%H:%M:%S")
+            if sno=="S.No." : serial=1
+            else : serial=int(sno)+1
+            f.writelines(f'\n{serial},{name},{id},{current_date},{current_time}')
+
+def recognise():
+    """
+    This function helps to take attendance and save it into an excel file 
+    in the following foramt:
+    Name Date
+    """
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
+    recognizer.read('model/trained_model2.yml')
+    cascadePath = "haarcascade_frontalface_default.xml"
+    faceCascade = cv2.CascadeClassifier(cascadePath)
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    id = 0
+
+    # add the list of names of your dataset here
+    names = {0:'None',1734210087:'Shubham Srivastava'}
+
+    cam = cv2.VideoCapture(0)
+
+    while True:
+        ret, img = cam.read()
+        # img = cv2.flip(img, -1) # Flip vertically
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5)
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+            id, confidence = recognizer.predict(gray[y:y + h, x:x + w])
+
+            # If confidence is less them 100 ==> "0" : perfect match
+            if (confidence < 100):
+                stu_name = names[id]
+                markAttendance(id,stu_name)
+                confidence = "  {0}%".format(round(100 - confidence))
+            else:
+                id = "unknown"
+                confidence = "  {0}%".format(round(100 - confidence))
+
+            cv2.putText(img,stu_name,(x + 5, y - 5),font,1,(255, 255, 255),2)
+
+        cv2.imshow('camera', img)
+        k = cv2.waitKey(10) & 0xff  # Press 'ESC' for exiting video
+        if k == 27:
+            break
+    # Do a bit of cleanup
+    print("\n [INFO] Exiting Program and cleanup stuff")
+    cam.release()
+    cv2.destroyAllWindows()
 	
 def getImagesAndLabels(path):
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
@@ -131,8 +194,6 @@ def testVal(inStr,acttyp):
         if not inStr.isdigit():
             return False
     return True
-	
-
 
 txt = tk.Entry(window, validate="key",  fg="black",font=("Calibri 20"),bg = "#aaf0d1")
 txt['validatecommand'] = (txt.register(testVal),'%P','%d')	
@@ -144,16 +205,21 @@ lbl2.place(x=200, y=370)
 txt2 = tk.Entry(window,fg="black",font=("Calibri 20"),bg ="#aaf0d1" )
 txt2.place(x=550, y=380,width = 300, height = 40)
 
-train_btn = PhotoImage(file = "button_train-images.png")
-take_btn = PhotoImage(file = "button_take-image.png")
-quit_btn = PhotoImage(file = "button_quit.png")
+train_btn = PhotoImage(file = "images/button_train-images.png")
+take_btn = PhotoImage(file = "images/button_take-image.png")
+quit_btn = PhotoImage(file = "images/button_quit.png")
+mark_attendance = PhotoImage(file = "images/mark_attendance.png")
+
 takeImg = tk.Button(window , image = take_btn,command = take_img ,border=0,bg = "#F6F6F6")
-takeImg.place(x=200, y=550)
+takeImg.place(x=50, y=550)
 
 trainImg = tk.Button(window, image = train_btn,command = training, border=0,bg="#F6F6F6")
-trainImg.place(x=480, y=550)
+trainImg.place(x=330, y=550)
+
+recogniser = tk.Button(window,image = mark_attendance ,command=recognise, border=0,bg="#F6F6F6")
+recogniser.place(x=650, y=550)
 
 quit_Btn = tk.Button(window, image = quit_btn,command=on_closing,border=0,bg="#E8E9E4")
-quit_Btn.place(x=800, y=550)
+quit_Btn.place(x=1050, y=550)
 
 window.mainloop()
