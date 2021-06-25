@@ -1,3 +1,0 @@
-Efficient ways to store images in python into disk , LMDB ,HDF5
-Choose according to personal requirements
-https://realpython.com/storing-images-in-python/
