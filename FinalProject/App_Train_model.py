@@ -10,8 +10,10 @@ from PIL import Image,ImageTk
 window = tk.Tk()
 window.title("Face Recognition Attendance System")
 window.geometry('1280x720')
-window.configure(bg='#EAFAF1')
-
+bg = ImageTk.PhotoImage(file = "Image.png")
+label = Label(window,image = bg)
+label.place(x = 0, y = 0)
+window.configure()
 
 """
 This function helps to take 200 images of an individual subject.
@@ -46,8 +48,8 @@ def take_img():
     cv2.destroyAllWindows()
         
     res = "Images Saved  : " + ID + " Name : " + Name
-    Notification.configure(text=res, bg="SpringGreen3", width=50, font=('times', 18, 'bold'))
-    Notification.place(x=250, y=400)
+    Notification.configure(text=res, bg="#d3d3d3", fg = "black",width=50, font=('times', 18, 'bold'))
+    Notification.place(x=250, y=450)
       
 
 
@@ -76,8 +78,8 @@ def training():
         Notification.place(x=350, y=400)
 
     res = "Model Trained"  # +",".join(str(f) for f in Id)
-    Notification.configure(text=res, bg="SpringGreen3", width=50, font=('times', 18, 'bold'))
-    Notification.place(x=250, y=400)
+    Notification.configure(text=res, bg="#d3d3d3", width=50, font=('times', 18, 'bold'))
+    Notification.place(x=250, y=450)
 
 	
 	
@@ -116,13 +118,13 @@ def on_closing():
 window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
-message = tk.Label(window, text="UGI, Face Recognition System", bg="#F7DC6F", fg="black", width=50,height=3, font=('times', 30, 'italic bold '))
+message = tk.Label(window, text="UGI, Face Recognition System", bg="#c9dfe3", fg="black",border = 0, width=50,height=2, font=('times', 30, 'italic bold '))
 message.place(x=80, y=20)
 
 Notification = Label(window, text="All things good", bg="Green", fg="white", width=15, height=3)
 
-lbl = Label(window, text="Enter id", width=20, height=2, fg="black",bg='#82E0AA', font=('times', 20, 'italic bold '))
-lbl.place(x=200, y=200)
+lbl = Label(window, text="Enter id", width=20, height=2, fg="black",bg='#99badd', font=('times', 20, 'italic bold '))
+lbl.place(x=200, y=250)
 
 def testVal(inStr,acttyp):
     if acttyp == '1': #insert
@@ -132,23 +134,26 @@ def testVal(inStr,acttyp):
 	
 
 
-txt = tk.Entry(window, validate="key", width=20,  fg="red")
+txt = tk.Entry(window, validate="key",  fg="black",font=("Calibri 20"),bg = "#aaf0d1")
 txt['validatecommand'] = (txt.register(testVal),'%P','%d')	
-txt.place(x=550, y=210)
+txt.place(x=550, y=260 , width = 200, height = 40)
 
-lbl2 = tk.Label(window, text="Enter Name", width=20, fg="black",bg='#82E0AA',  height=2, font=('times', 20, 'italic bold '))
-lbl2.place(x=200, y=300)
+lbl2 = tk.Label(window, text="Enter Name", width=20, fg="black",bg='#99badd',  height=2, font=('times', 20, 'italic bold '))
+lbl2.place(x=200, y=370)
 
-txt2 = tk.Entry(window, width=20, fg="red")
-txt2.place(x=550, y=310)
+txt2 = tk.Entry(window,fg="black",font=("Calibri 20"),bg ="#aaf0d1" )
+txt2.place(x=550, y=380,width = 200, height = 40)
 
-takeImg = tk.Button(window, text="Take Images",command=take_img ,fg="black", bg="#2980B9"  ,width=15  ,height=3, activebackground = "Red" ,font=('times', 20, 'italic bold '))
-takeImg.place(x=200, y=500)
+train_btn = PhotoImage(file = "button_train-images.png")
+take_btn = PhotoImage(file = "button_take-image.png")
+quit_btn = PhotoImage(file = "button_quit.png")
+takeImg = tk.Button(window , image = take_btn,command = take_img ,border=0,bg = "#F6F6F6")
+takeImg.place(x=200, y=550)
 
-trainImg = tk.Button(window, text="Train Images", command=training ,fg="black", bg="#2980B9"  ,width=15  ,height=3, activebackground = "Red",font=('times', 20, 'italic bold '))
-trainImg.place(x=500, y=500)
+trainImg = tk.Button(window, image = train_btn,command = training, border=0,bg="#F6F6F6")
+trainImg.place(x=480, y=550)
 
-trainImg = tk.Button(window, text="Quit", command=on_closing, fg="white", bg="#EC7063" ,width=15 ,height=3, activebackground = "Red",font=('times', 20, 'italic bold '))
-trainImg.place(x=800, y=500)
+quit_Btn = tk.Button(window, image = quit_btn,command=on_closing,border=0,bg="#E8E9E4")
+quit_Btn.place(x=800, y=550)
 
 window.mainloop()
